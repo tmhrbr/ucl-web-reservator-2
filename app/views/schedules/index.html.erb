@@ -1,0 +1,46 @@
+<nav>
+    <ol class="breadcrumb navbar-righ">
+        <li class="breadcrumb-item ml-auto">
+            <%= link_to 'Buildings', buildings_path %>
+        </li>
+        <li class="breadcrumb-item">
+            <%= link_to "Room - #{@room.title}", building_rooms_path(building_id: @room.building_id) %>
+        </li>
+         <li class="breadcrumb-item active">
+            Schedule
+        </li>
+    </ol>
+</nav>
+
+<section>
+    <h1 class="pt-2">
+        <i class="fa fa-calendar-alt"></i> <%= @room.title %> - Schedule
+    </h1>
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-bordered schedule">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="text-center">
+                                <i class="fas fa-calendar-alt"></i>
+                            </th>
+                            {{#each page.headers}}
+                            <th>{{this}}</th>
+                            {{/each}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each page.content as |timeline|}}
+                        <tr>
+                            {{#each timeline as |item|}}
+                            <td>{{item}}</td>
+                            {{/each}}
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,56 @@
+<nav>
+    <ol class="breadcrumb navbar-righ">
+        <li class="breadcrumb-item active ml-auto">
+            Buildings
+        </li>
+    </ol>
+</nav>
+
+<section>
+    <form class="form-inline" action="<%= buildings_path %>" method="get">
+        <h1 class="pt-2">
+            <i class="fa fa-gopuram"></i> Buildings
+        </h1>
+
+        <div class="input-group ml-auto">
+            <input name="q" value="<%= params[:q] %>" type="text" class="form-control" placeholder="Search buildings">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search pt-1"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+    <article class="pt-2 pt-sm-0">
+        <div class="row pb-3">
+        <% if @buildings.length == 0 %>
+            <div class="col">
+                <h3>All demolished! Looks like there are no buildings!</h3>
+            </div>
+        <% end %>
+        <% @buildings.each_with_index do |building, i| %>
+            <div class="col-md-6 col-sm-6 col-lg-3 col-xl-2 pb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h5>
+                                <%= building.title %> 
+                            </h5> 
+                            <span class="card-subtitle mb-2 text-muted">
+                                <%= building.code %>
+                            </span>
+                        </div>
+                        <%= link_to 'See rooms', building_rooms_path(building), {class: "card-link"} %>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+        </div>
+
+        <div class="row pl-3 mb-3">
+            <% if (@buildings.length >= @max_buildings_shown) %>
+                <%= link_to 'See 5 more rooms.', buildings_path({l: @max_buildings_shown + 5}) %>
+            <% end %>
+        </div>
+    </article>
+</section>

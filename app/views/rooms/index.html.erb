@@ -1,0 +1,108 @@
+<nav>
+    <ol class="breadcrumb navbar-righ">
+        <li class="breadcrumb-item ml-auto">
+            <%= link_to 'Buildings', buildings_path %>
+        </li>
+        <li class="breadcrumb-item active">
+        <% if @building != nil %>
+            <%= @building.title %> - Rooms
+        <% else %>
+            Rooms
+        <% end %>
+        </li>
+    </ol>
+</nav>
+
+<section>
+    <div class="row">
+        <% if @building != nil %>
+            <div class="col-lg-4">
+        <% else %>
+            <div class="col-lg-12">
+        <% end %>
+            <form class="form-inline" action="<%= @building != nil ? building_rooms_path : rooms_path %>" method="get">
+                <h1 class="pt-2">
+                    <i class="fa fa-file-signature"></i>
+                    <% if @building != nil %>
+                        <%= @building.title %> - Rooms
+                    <% else %>
+                        Rooms
+                    <% end %>
+                </h1>
+                <div class="ml-xl-auto input-group">
+                    <input name="q" value="<%= params[:q] %>" type="text" class="form-control" placeholder="Seach rooms">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search pt-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="pt-2 pt-md-0">
+                <div class="row">
+                    <% if @rooms.length == 0 %>
+                        <div class="col">
+                            <h3>Hmm, looks like we have a building with no rooms!</h3>
+                        </div>
+                    <% end %>
+                    <% @rooms.each do |room| %>
+                        <% if @building != nil %>
+                            <div class="col-lg-6 col-md-3 col-sm-6 pb-2">
+                        <% else %>
+                            <div class="col-lg-2 col-md-3 col-sm-6 pb-2">
+                        <% end %>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= room.title %></h5>
+                                <% if @building == nil %>
+                                    <h6 class="text-muted"><%= room.building.title %></h6>
+                                <% end %>
+                                <%= link_to 'See schedule', building_room_schedules_path(building_id: room.building_id, room_id: room.id), {class: "card-link"} %>
+                            </div>
+                        </div>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+            <div class="row pl-3 mb-3">
+                <% if (@rooms.length >= @max_buildings_shown) %>
+                    <% if @building != nil %>
+                        <%= link_to 'See 4 more rooms.', building_rooms_path({l: @max_buildings_shown + 4}) %>
+                    <% else %>
+                        <%= link_to 'See 4 more rooms.', rooms_path({l: @max_buildings_shown + 4}) %>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+        <% if @building != nil %>
+            <div class="col-lg-8">
+            <h3 class="pt-3">
+                <i class="fa fa-calendar-alt"></i> Today schedule
+            </h3>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="text-center">
+                                <i class="fa fa-file-signature"></i>
+                            </th>
+                            {{#each page.content.scheduleTimes}}
+                            <th>{{this}}</th>
+                            {{/each}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each page.content.schedule as |timeline|}}
+                        <tr>
+                            {{#each timeline as |item|}}
+                            <td>{{item}}</td>
+                            {{/each}}
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        <% end %>
+        </div>
+    </div>
+</section>
