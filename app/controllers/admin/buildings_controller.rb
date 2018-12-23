@@ -1,4 +1,4 @@
-class Admin::BuildingsController < ApplicationController
+class Admin::BuildingsController < Admin::AdminController
     def index
         @buildings = Building.includes(:rooms).all
     end
@@ -13,7 +13,21 @@ class Admin::BuildingsController < ApplicationController
         if @building.update(building_params)
             redirect_to action: "index"
         else
-            render 'edit'
+            render 'show'
+        end
+    end
+
+    def new
+        @building = Building.new
+    end
+
+    def create
+        @building = Building.new(building_params)
+
+        if @building.save
+            redirect_to action: "index"
+        else
+            render 'new'
         end
     end
 

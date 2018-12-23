@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root :to => "dashboards#index"
-    resources :dashboards, :buildings, :rooms, :students, :teachers, :lessons
+    resources :dashboards, :buildings, :rooms, :students, :teachers, :lessons, :courses
   end
 
   root to: 'buildings#index'

@@ -1,4 +1,9 @@
 class Lesson < ApplicationRecord
     belongs_to :room
-    has_many :teachers
+    belongs_to :course
+    belongs_to :teacher
+
+    def day
+        DateTime.parse(self.start_at.to_s).cwday
+    end
 end

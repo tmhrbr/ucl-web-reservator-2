@@ -1,13 +1,13 @@
 <nav>
     <ol class="breadcrumb navbar-righ">
         <li class="breadcrumb-item ml-auto">
-            <%= link_to 'Dashboard - admin', admin_dashboards_path %>
+            <%= link_to 'Dashboard', admin_dashboards_path %>
         </li>
         <li class="breadcrumb-item">
             <%= link_to 'Buildings', admin_buildings_path %>
         </li>
         <li class="breadcrumb-item active">
-            Building - <%= @building.title %>
+            <%= @building.title %>
         </li>
     </ol>
 </nav>
@@ -39,11 +39,16 @@
                                 <tr>
                                     <th>Title</th>
                                     <th>Code</th>
-                                    <th>Number of rooms</th>
+                                    <th>Number of lessons</th>
                                     <th colspan="2"></th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <% if (@building.rooms.length == 0) %>
+                                    <tr>
+                                        <td colspan="5">Looks like there are no rooms in this building.</td>
+                                    </tr>
+                                <% end %>
                                 <% @building.rooms.includes(:lessons).each do |room| %>
                                     <tr>
                                         <td><%= room.title %></td>
@@ -60,7 +65,7 @@
                                     <th></th>
                                     <th></th>
                                     <th colspan="2">
-                                        <%= link_to new_admin_room_path, { class: "btn btn-success btn-block"} do %>
+                                        <%= link_to new_admin_room_path(prev_building_id: @building.id), { class: "btn btn-success btn-block"} do %>
                                             <i class="fas fa-plus"></i> Add
                                         <% end %>
                                     </th>

@@ -1,0 +1,59 @@
+<nav>
+    <ol class="breadcrumb navbar-righ">
+        <li class="breadcrumb-item ml-auto">
+            <%= link_to 'Dashboard', admin_dashboards_path %>
+        </li>
+        <li class="breadcrumb-item active">
+            Students
+        </li>
+    </ol>
+</nav>
+
+<section>
+    <h1 class="pt-2">
+        <i class="fas fa-graduation-cap"></i> Students
+    </h1>
+    <div class="table-responsive">
+        <table class="table table-hover mt-1">
+            <thead class="thead-dark">
+                <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Email</th>
+                    <th>Study type</th>
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (@students.length == 0) %>
+                    <tr>
+                        <td colspan="5">Looks like there are no students.</td>
+                    </tr>
+                <% end %>
+                <% @students.each do |student| %>
+                    <tr>
+                        <td><%= student.first_name %></td>
+                        <td><%= student.last_name %></td>
+                        <td><%= student.email %></td>
+                        <td><%= student.study_type %></td>
+                        <td class="width-10"><a href="<%= admin_student_path(student) %>" class="btn btn-primary text-light"><i class="fas fa-edit"></i> Edit</a></td>
+                        <td class="width-10"><a href="<%= admin_student_path(student) %>" data-confirm="Are you sure?" data-method="delete" class="btn btn-danger text-light"><i class="fas fa-trash-alt"></i> Delete</a></td>
+                    </tr>
+                <% end %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th colspan="2">
+                        <%= link_to new_admin_student_path, { class: "btn btn-success btn-block"} do %>
+                            <i class="fas fa-plus"></i> Add
+                        <% end %>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</section>

@@ -10,7 +10,7 @@ class RoomsController < ApplicationController
             @rooms = Room.includes(:building).all
         else
             @building = Building.find(params[:building_id] + "%")
-            @rooms = @building.rooms
+            @rooms = @building.rooms.includes(:lessons)
         end
 
         if (params[:q] != nil)

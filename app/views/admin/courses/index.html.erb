@@ -1,0 +1,65 @@
+<nav>
+    <ol class="breadcrumb navbar-righ">
+        <li class="breadcrumb-item ml-auto">
+            <%= link_to 'Dashboard', admin_dashboards_path %>
+        </li>
+        <li class="breadcrumb-item active">
+            Courses
+        </li>
+    </ol>
+</nav>
+
+<section>
+    <h1 class="pt-2">
+        <i class="fab fa-discourse"></i> Courses
+    </h1>
+    <div class="table-responsive">
+        <table class="table table-hover mt-1">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Title</th>
+                    <th>Code</th>
+                    <th>Language</th>
+                    <th>Study type</th>
+                    <th># Students</th>
+                    <th># Teachers</th>
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (@courses.length == 0) %>
+                    <tr>
+                        <td colspan="5">Looks like there are no courses.</td>
+                    </tr>
+                <% end %>
+                <% @courses.each do |course| %>
+                    <tr>
+                        <td><%= course.title %></td>
+                        <td><%= course.code %></td>
+                        <td><%= course.language %></td>
+                        <td><%= course.study_type %></td>
+                        <td><%= course.students.length %></td>
+                        <td><%= course.teachers.length %></td>
+                        <td class="width-10"><a href="<%= admin_course_path(course) %>" class="btn btn-primary text-light"><i class="fas fa-edit"></i> Edit</a></td>
+                        <td class="width-10"><a href="<%= admin_course_path(course) %>" data-confirm="Are you sure?" data-method="delete" class="btn btn-danger text-light"><i class="fas fa-trash-alt"></i> Delete</a></td>
+                    </tr>
+                <% end %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th colspan="2">
+                        <%= link_to new_admin_course_path, { class: "btn btn-success btn-block"} do %>
+                            <i class="fas fa-plus"></i> Add
+                        <% end %>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</section>

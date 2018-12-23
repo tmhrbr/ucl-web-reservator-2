@@ -1,0 +1,33 @@
+<nav>
+    <ol class="breadcrumb navbar-righ">
+        <li class="breadcrumb-item ml-auto">
+            <%= link_to 'Dashboard', admin_dashboards_path %>
+        </li>
+        <li class="breadcrumb-item">
+            <%= link_to 'Buildings', admin_buildings_path %>
+        </li>
+        <li class="breadcrumb-item active">
+            <%= @building.title %>
+        </li>
+    </ol>
+</nav>
+
+<section>
+    <div class="mr-auto ml-auto">
+        <div class="row">
+            <div class="col-3">
+                <h1 class="pt-2">
+                    <i class="fa fa-gopuram"></i> New building
+                </h1>
+                <div class="card p-3">
+                    <%= simple_form_for [:admin, @building] do |f| %>
+                        <%= f.input :title %>
+                        <%= f.input :code %>
+                        <%= f.button :submit, class: "btn-primary" %>
+                        <%= link_to "Cancel", admin_buildings_path, { class: "btn btn-default"} %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

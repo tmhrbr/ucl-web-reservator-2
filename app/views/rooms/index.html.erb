@@ -84,21 +84,69 @@
                     <thead class="thead-light">
                         <tr>
                             <th class="text-center">
-                                <i class="fa fa-file-signature"></i>
+                                Room
                             </th>
-                            {{#each page.content.scheduleTimes}}
-                            <th>{{this}}</th>
-                            {{/each}}
+                            <th>
+                                7:00 - 8:00
+                            </th>
+                            <th>
+                                8:00 - 9:00
+                            </th>
+                            <th>
+                                9:00 - 10:00
+                            </th>
+                            <th>    
+                                10:00 - 11:00
+                            </th>
+                            <th>
+                                12:00 - 13:00
+                            </th>
+                            <th>
+                                14:00 - 15:00
+                            </th>
+                            <th>
+                                15:00 - 16:00
+                            </th>
+                            <th>
+                                16:00 - 17:00
+                            </th>
+                            <th>
+                                17:00 - 18:00
+                            </th>
+                            <th>
+                                18:00 - 19:00
+                            </th>
+                            <th>
+                                19:00 - 20:00
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each page.content.schedule as |timeline|}}
-                        <tr>
-                            {{#each timeline as |item|}}
-                            <td>{{item}}</td>
-                            {{/each}}
-                        </tr>
-                        {{/each}}
+                        <% @rooms.each do |room| %>
+                            <tr>
+                                <td class="text-center">
+                                    <%= room.title %>
+                                    <br>
+                                    <span class="text-muted"><%= room.code %></span>
+                                </td>
+                                <% 11.times do |i| %>
+                                    <% if room.lessons.length == 0 %>
+                                        <td></td>
+                                    <% end %>
+                                    <% room.lessons.where('start_at BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).each do |lesson| %>
+                                        <% if ((lesson.start_at.strftime("%H").to_i...lesson.end_at.strftime("%H").to_i) === 7+i) %>
+                                            <td class="text-center">
+                                                <%= lesson.course.title %>
+                                                <br>
+                                                <%= lesson.teacher.first_name %> <%= lesson.teacher.first_name %>
+                                            </td>
+                                        <% else %>
+                                            <td></td>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+                            </tr>
+                        <% end %>
                     </tbody>
                 </table>
             </div>

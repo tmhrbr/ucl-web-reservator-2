@@ -1,0 +1,89 @@
+<nav>
+    <ol class="breadcrumb navbar-righ">
+        <li class="breadcrumb-item ml-auto">
+            <%= link_to 'Dashboard', admin_dashboards_path %>
+        </li>
+        <li class="breadcrumb-item">
+            <%= link_to 'Buildings', admin_buildings_path %>
+        </li>
+        <li class="breadcrumb-item">
+            <%= link_to @building.title, admin_building_path(@building) %>
+        </li>
+        <li class="breadcrumb-item active">
+            Room - <%= @room.title %>
+        </li>
+    </ol>
+</nav>
+
+<section>
+    <div class="mr-auto ml-auto">
+        <div class="row">
+            <div class="col-3">
+                <h1 class="pt-2">
+                    <i class="fa fa-file-signature"></i> Room detail
+                </h1>
+                <div class="card p-3">
+                    <%= simple_form_for [:admin, @room] do |f| %>
+                        <%= f.input :title %>
+                        <%= f.input :code %>
+                        <%= f.button :submit, class: "btn-primary" %>
+                        <%= link_to "Cancel", admin_building_path(@building), { class: "btn btn-default"} %>
+                    <% end %>
+                </div>
+            </div>
+            <div class="col">
+                <h1 class="pt-2">
+                    <i class="far fa-calendar-check"></i> Lessons
+                </h1>
+                <div class="card p-3">
+                    <div class="table-responsive">
+                        <table class="table table-hover mt-1">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Teacher</th>
+                                    <th>Start at</th>
+                                    <th>End at</th>
+                                    <th>Durration</th>
+                                    <th colspan="2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (@room.lessons.length == 0) %>
+                                    <tr>
+                                        <td colspan="5">Looks like there are no lessons in this room.</td>
+                                    </tr>
+                                <% end %>
+                                <% @room.lessons.includes(:course, :teacher).each do |lesson| %>
+                                    <tr>
+                                        <td><%= lesson.course.title %></td>
+                                        <td><%= lesson.teacher.first_name %> <%= lesson.teacher.last_name %> (<%= lesson.teacher.email %>)</td>
+                                        <td><%= lesson.start_at.strftime("%H:%M") %></td>
+                                        <td><%= lesson.end_at.strftime("%H:%M") %></td>
+                                        <td><%= lesson.durration %></td>
+                                        <td class="width-10"><a href="<%= admin_lesson_path(lesson) %>" class="btn btn-primary text-light"><i class="fas fa-edit"></i> Edit</a></td>
+                                        <td class="width-10"><a href="<%= admin_lesson_path(lesson) %>" data-confirm="Are you sure?" data-method="delete" class="btn btn-danger text-light"><i class="fas fa-trash-alt"></i> Delete</a></td>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th colspan="2">
+                                        <%= link_to new_admin_lesson_path(prev_room_id: @room.id), { class: "btn btn-success btn-block"} do %>
+                                            <i class="fas fa-plus"></i> Add
+                                        <% end %>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

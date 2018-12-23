@@ -1,7 +1,7 @@
 <nav>
     <ol class="breadcrumb navbar-righ">
         <li class="breadcrumb-item ml-auto">
-            <%= link_to 'Dashboard - admin', admin_dashboards_path %>
+            <%= link_to 'Dashboard', admin_dashboards_path %>
         </li>
         <li class="breadcrumb-item active">
             Buildings
@@ -20,10 +20,15 @@
                     <th>Title</th>
                     <th>Code</th>
                     <th>Number of rooms</th>
-                    <th colspan="2">
+                    <th colspan="2">Actions</th>
                 </tr>
             </thead>
             <tbody>
+                <% if (@buildings.length == 0) %>
+                    <tr>
+                        <td colspan="5">Looks like there are no buildings.</td>
+                    </tr>
+                <% end %>
                 <% @buildings.each do |building| %>
                     <tr>
                         <td><%= building.title %></td>

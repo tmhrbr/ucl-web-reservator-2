@@ -1,0 +1,35 @@
+<nav>
+    <ol class="breadcrumb navbar-righ">
+        <li class="breadcrumb-item ml-auto">
+            <%= link_to 'Dashboard', admin_dashboards_path %>
+        </li>
+        <li class="breadcrumb-item">
+            <%= link_to 'Teachers', admin_students_path %>
+        </li>
+        <li class="breadcrumb-item active">
+            <%= "#{@teacher.first_name}" "#{@teacher.last_name}" %>
+        </li>
+    </ol>
+</nav>
+
+<section>
+    <div class="mr-auto ml-auto">
+        <div class="row">
+            <div class="col-3">
+                <h1 class="pt-2">
+                    <i class="fas fa-chalkboard-teacher"></i> New teacher
+                </h1>
+                <div class="card p-3">
+                    <%= simple_form_for [:admin, @teacher] do |f| %>
+                        <%= f.input :first_name %>
+                        <%= f.input :last_name %>
+                        <%= f.input :email %>
+                        <%= f.association :courses, as: :check_boxes %>
+                        <%= f.button :submit, class: "btn-primary" %>
+                        <%= link_to "Cancel", admin_teachers_path, { class: "btn btn-default"} %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

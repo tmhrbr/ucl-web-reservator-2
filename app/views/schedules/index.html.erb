@@ -23,21 +23,49 @@
                     <thead class="thead-light">
                         <tr>
                             <th class="text-center">
-                                <i class="fas fa-calendar-alt"></i>
+                                Monday
                             </th>
-                            {{#each page.headers}}
-                            <th>{{this}}</th>
-                            {{/each}}
+                            <th class="text-center">
+                                Tuesday
+                            </th>
+                            <th class="text-center">
+                                Wednesday
+                            </th>
+                            <th class="text-center">
+                                Thursday
+                            </th>
+                            <th class="text-center">
+                                Friday
+                            </th>
+                            <th class="text-center">
+                                Saturday
+                            </th>
+                            <th class="text-center">
+                                Sunday
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each page.content as |timeline|}}
-                        <tr>
-                            {{#each timeline as |item|}}
-                            <td>{{item}}</td>
-                            {{/each}}
-                        </tr>
-                        {{/each}}
+                        <% if @room.lessons.length == 0 %>
+                            <tr>
+                                <td colspan="7">This room has no lessons planned for this week.</td>
+                            </tr>
+                        <% end %>
+                        <% @room.lessons.includes(:teacher, :course).each do |lesson| %>
+                            <tr>
+                                <% 7.times do |i| %>
+                                    <% if lesson.day-1 == i %>
+                                        <td class="text-center">
+                                            <%= lesson.course.title %>
+                                            <br>
+                                            <%= lesson.teacher.first_name %> <%= lesson.teacher.first_name %>
+                                        </td>
+                                    <% else %>
+                                        <td></td>
+                                    <% end %>
+                                <% end %>
+                            </tr>
+                        <% end %>
                     </tbody>
                 </table>
             </div>

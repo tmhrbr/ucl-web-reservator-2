@@ -1,0 +1,43 @@
+<nav>
+    <ol class="breadcrumb navbar-righ">
+        <li class="breadcrumb-item ml-auto">
+            <%= link_to 'Dashboard', admin_dashboards_path %>
+        </li>
+        <li class="breadcrumb-item">
+            <%= link_to 'Buildings', admin_buildings_path %>
+        </li>
+        <li class="breadcrumb-item">
+            <%= link_to @building.title, admin_building_path(@building) %>
+        </li>
+        <li class="breadcrumb-item active">
+            <%= link_to @room.title, admin_room_path(@room) %>
+        </li>
+        <li class="breadcrumb-item active">
+            Lesson
+        </li>
+    </ol>
+</nav>
+
+<section>
+    <div class="mr-auto ml-auto">
+        <div class="row">
+            <div class="col-3">
+                <h1 class="pt-2">
+                    <i class="fa fa-file-signature"></i> Lesson detail
+                </h1>
+                <div class="card p-3">
+                    <%= simple_form_for [:admin, @lesson] do |f| %>
+                        <%= f.association :course %>
+                        <%= f.association :teacher, label_method: :email %>
+                        <%= f.input :start_at %>
+                        <%= f.input :end_at %>
+                        <%= f.input :durration %>
+                        <%= f.button :submit, class: "btn-primary" %>
+                        <%= hidden_field_tag 'prev_room_id', @room.id %>
+                        <%= link_to "Cancel", admin_room_path(@room), { class: "btn btn-default"} %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
